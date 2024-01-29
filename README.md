@@ -6,17 +6,15 @@
 
 经过人工翻译，几乎对所有英文内容进行了翻译，使得使用者能够更加流畅的对SQLmap返回内容进行判断，可以参考一下以下截图
 
-![image-20240126172853721](./assets/image-20240126172853721.png)
+![image-20240126172853721](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/c36cf7d0-0512-4bec-ad9f-93e6625e7800)
 
-![image-20240126172908329](./assets/image-20240126172908329.png)
+![image-20240126172908329](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/d9aee9ff-f624-42d3-891e-10c7b87014c5)
 
-图片
+![image-20240126172750724](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/180afe3e-487b-4dcc-b84d-b63a42b5070d)
 
-![image-20240126172750724](./assets/image-20240126172750724.png)
+![image-20240126172800651](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/1f3a9c8f-117f-4dae-9276-8cf742b5fda7)
 
-![image-20240126172800651](./assets/image-20240126172800651.png)
-
-![image-20240126172806542](./assets/image-20240126172806542.png)
+![image-20240126172806542](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/72faa354-e558-4c89-ad17-7ffe95a6f93d)
 
 # 最后一说
 
