@@ -1,25 +1,74 @@
-# 工具说明
+# 碎碎念
 
-由于目前公开的SQLmap工具汉化版，普遍存在机器翻译、语句不通顺、拼接不符合正常中文逻辑的问题，使用过程中极度难受，因此决定人工汉化一遍，并对部分代码修改优化大概更改六千余处，纯人力修改可能存在部分未汉化的地方，如有发现问题还请联系作者反馈！ 
+​	SQLmap作为测试SQL注入的强有力工具深受广大用户的青睐，但由于非国人制作，绝大多数均为英文版，对于使用体验会有较大影响。同时仅仅只有命令行模式，需要记下大量命令和重复输入命令，因此本工具应运而生。 
 
-# 简单介绍
+# **工具介绍**
 
-经过人工翻译，几乎对所有英文内容进行了翻译，使得使用者能够更加流畅的对SQLmap返回内容进行判断，可以参考一下以下截图
+​	通过人工汉化，并针对中文与英文的语法区别，进行了特殊的代码修改，从而实现汉化后语句通顺，减小误会的产生。编写好的GUI文件直接进入图形化模式，通过鼠标勾选参数就可以快速执行命令，同时支持批量扫描。
 
-![image-20240126172853721](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/c36cf7d0-0512-4bec-ad9f-93e6625e7800)
+# 快速上手
 
-![image-20240126172908329](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/d9aee9ff-f624-42d3-891e-10c7b87014c5)
+​	在文件夹中选择gui.pyw双击启动（请确认您的Python环境为Python3，运行py文件的方式为python sqlmap.py，如果并非该格式，请到gui.pyw中对应位置进行修改）
+![aaee93427b4abf4c6ec2960724c80edd](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/dd55065a-4cb8-40a4-838d-a55c90e96f7a)
+![02f63769802ce75db8ec3b6a7c715ad3](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/7c667cb5-cc6a-4d03-ad46-82da28c95759)
 
-![image-20240126172750724](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/180afe3e-487b-4dcc-b84d-b63a42b5070d)
+​	左侧选择命令，中间填入burp抓取的数据包，点击开始运行即可！
+![e4ce8c7a9faade2d2fe151cae608b797](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/05aa9b67-f838-4789-9c1f-8b7d1e0cf2e5)
 
-![image-20240126172800651](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/1f3a9c8f-117f-4dae-9276-8cf742b5fda7)
+# 使用帮助
 
-![image-20240126172806542](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/72faa354-e558-4c89-ad17-7ffe95a6f93d)
+​	图形化界面分为三个部分，左侧部分为数据库相关操作模块，中间为数据包、URL填写模块，右侧为杂项模块。
+
+**左侧模块内容介绍**
+
+- 测试级别：可选择1-5级，等级越高，SQL语句测试内容越多。
+- 风险级别：可选择1-3级，1级采用相对安全的语法，3级采用非常危险的语法。
+- 线程数：可选择1-20线程，通常SQLmap限制最高20线程。
+- 当前数据库：执行--current-db命令，查看当前正在使用哪一个库。
+- 当前用户：执行--current-user命令，查看正在使用的用户是哪一个。
+- 当前用户DBA权限：执行--is-dba命令，查看当前用户是否是DBA权限。
+- 枚举库名：执行--dbs命令，枚举所有库名。
+- 枚举表名：执行--tables命令，需要填入指定库名，枚举指定库名下的所有表名。（不填写指定内容会枚举所有）
+- 枚举列名：执行--columns命令，需要填入指定库名、指定表名，枚举指定库名、指定表名下的所有列名。（不填写指定内容会枚举所有）
+- 枚举字段：执行--dump命令，需要填入指定库名、指定表名、指定列名，枚举指定库名、指定表名、指定列名下的所有字段。（不填写指定内容会枚举所有）
+- 一键脱库：执行--dump-all命令，获取所有库名、表名、列名、字段并保存到文件中。
+- OS交互式Shell：执行--os-shell命令。
+- SQL交互式Shell：执行--sql-shell命令。
+- 指定库名：执行-D命令。
+- 指定表名：执行-T命令。
+- 指定列名：执行-C命令。
+
+**右侧模块内容介绍**
+
+- 设置代理：格式为(http://|https://|socks5://IP:PORT)
+- 代理身份验证：格式为(用户名:密码)
+- 一键去特征：执行--random-agent--tamper=between--flush-session--randomize=1--skip=XSS命令。
+- 打开所有优化开关：执行-o命令。
+- 默认应答：执行--batch命令，使用默认的选项。
+- 清除缓存：执行--purge命令，删除之前的记录缓存。
+- 强制SSL通信：执行--force-ssl命令，强制sqlmap使用https进行请求。
+- 批量扫描URL：执行-m命令，一行一条的形式填写URL。(中间文本框留空)
+- 批量扫描数据包：使用前要在batch文件夹中放入txt文件，每一个txt文件对应一次扫描，循环执行-r命令，开启默认应答，启用大量cmd来运行，结束后自动打开sqlmap结果目录。(中间文本框留空)
+- 注入方式：可选择指定注入方式或全部注入方式。
+- 指定数据库类型：可选择指定数据库类型。
+- 自定义参数：直接填写需要的额外参数，会自动添加在命令最后。
+- 查看SQLMAP帮助：查看sqlmap-hh内容。
+- 开始运行：保存中间内容并执行SQLmap命令。
+- 文本框：回显运行的SQLmap命令。
+
+**中间模块内容介绍**
+
+- 中部文本框：填写http开头执行-u命令，填写数据包执行-r命令。
+
+# 工具截图
+![b9031b2470b1214f8752dd888dece118](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/cdaf0648-21a1-48a5-9a0e-c5d3fa7ad820)
+![02e83a5448761ef1d62de08b97c9a407](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/30928bcf-d808-46ae-8769-00b0ebeb06af)
+![6f0ec70cba8111660e4b8aad6998aa1e](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/a302133e-7887-4112-98cc-b093c1349a3a)
 
 # 最后一说
 
-如果您方便的话，辛苦您为作者主页两个个人项目点个star~ 并关注一下公众号：**樱花庄的本间白猫**
+​	如果您方便的话，辛苦您为作者主页的个人项目点个star~ 并关注一下公众号：**樱花庄的本间白猫**
+![Clip_2024-03-06_19-23-55](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/ac76b86e-35b9-4c64-a00a-1eb7a7fe05d2)
 
-![樱花庄_搜索联合传播样式-标准色版](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/5987cdd3-c436-41a5-b554-924e462fa533)
-
-
+​	如果出现bug或有建议，可以添加作者联系方式进行反馈！同时邀请进入交流群一起交流一下~
+![e8273e81034a30640688127548f7f4b7](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/1bd6390a-673c-42e6-9a62-074eb35e146e)
