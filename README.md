@@ -8,7 +8,7 @@
 
 # 快速上手
 
-​	在文件夹中选择gui.pyw双击启动（请确认您的Python环境为Python3，运行py文件的方式为python sqlmap.py，如果并非该格式，请到gui.pyw中对应位置进行修改）
+​	在文件夹中选择 gui.pyw 双击启动（请确认您的Python环境为Python3，运行py文件的方式为python sqlmap.py，如果并非该格式，请到gui.pyw中对应位置进行修改）
 ![aaee93427b4abf4c6ec2960724c80edd](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/dd55065a-4cb8-40a4-838d-a55c90e96f7a)
 
 请注意，如果您双击gui.pyw无法正常启动，请右键文件--属性--打开方式更改为python.exe，请注意不是pythonw.exe
