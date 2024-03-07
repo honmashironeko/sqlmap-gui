@@ -109,7 +109,10 @@ def run_command():
             sem.acquire()
             t = Thread(target=execute_command, args=(new_cmd,))
             t.start()
-        os.system(f'explorer C:\\Users\\{getpass.getuser()}\\AppData\\Local\\sqlmap\\output')
+        if platform.system() == "Windows":
+            os.system(f'explorer C:\\Users\\{getpass.getuser()}\\AppData\\Local\\sqlmap\\output')
+        elif platform.system() == "Darwin":
+            os.system(f'open /Users/{getpass.getuser()}/.local/share/sqlmap/output')
     if technique_var.get():
         technique_abbr = get_technique_abbr(technique_var.get())
         cmd.extend(["--technique=" + technique_abbr])
