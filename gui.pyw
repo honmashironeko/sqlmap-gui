@@ -1,7 +1,8 @@
-import tkinter as tk
-import tkinter.messagebox as msgbox
 import os
 import getpass
+import platform
+import tkinter as tk
+import tkinter.messagebox as msgbox
 from threading import Thread, Semaphore
 from tkinter import ttk
 from tkinter import messagebox
@@ -24,8 +25,13 @@ sem = Semaphore(max_concurrent_cmds)
 
 def run_command():
     command_output.delete("1.0", "end")
-    cmd = ["start", "cmd", "/k", "python", "-Xfrozen_modules=off", "sqlmap.py"]
-    cmd2 = ["start", "cmd", "/c", "python", "-Xfrozen_modules=off", "sqlmap.py"]
+    sys=platform.system()
+    if sys == "Windows":
+        cmd = ["start", "cmd", "/k", "python", "-Xfrozen_modules=off", "sqlmap.py"]
+        cmd2 = ["start", "cmd", "/c", "python", "-Xfrozen_modules=off", "sqlmap.py"]
+    elif sys == "Linux" or sys== "Darwin":
+        cmd = ["python3", "-Xfrozen_modules=off", "sqlmap.py"]
+        cmd2 = ["python3", "-Xfrozen_modules=off", "sqlmap.py"]
 
     if "http" in top_textbox.get("1.0", "1.5"):
         cmd.append("-u")
@@ -137,7 +143,11 @@ def run_command():
         command_output.insert("end", output)
 
 def sqlmap_help():
-    cmd = ["start", "cmd", "/k", "python", "-Xfrozen_modules=off", "sqlmap.py", "-hh"]
+    sys=platform.system()
+    if sys == "Windows":
+        cmd = ["start", "cmd", "/k", "python", "-Xfrozen_modules=off", "sqlmap.py", "-hh"]
+    elif sys == "Linux" or sys== "Darwin":
+        cmd = ["python3", "-Xfrozen_modules=off", "sqlmap.py", "-hh"]
     os.system(" ".join(cmd))
 
 def check_create_files():
