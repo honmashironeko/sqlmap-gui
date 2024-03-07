@@ -78,6 +78,11 @@
 
 ![e8273e81034a30640688127548f7f4b7](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/1bd6390a-673c-42e6-9a62-074eb35e146e)
 
+# 特别鸣谢
+
+感谢以下师傅为本项目的大力支持！（排名不分先后）
+Re1axCyber（Linux、Mac系统优化）
+
 # 更新日志
 
 **2024年3月7日**
