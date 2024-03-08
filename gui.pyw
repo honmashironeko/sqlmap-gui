@@ -1,6 +1,7 @@
 import os
 import getpass
 import platform
+import shutil
 import tkinter as tk
 import tkinter.messagebox as msgbox
 from threading import Thread, Semaphore
@@ -20,6 +21,15 @@ def get_technique_abbr(technique_full):
     }
     return techniques_dict.get(technique_full, '')
 
+def copy_folders_with_log_files(source_path, dest_path):
+    for root, dirs, files in os.walk(source_path):
+        if "log" in files:
+            log_file_path = os.path.join(root, "log")
+            if os.path.getsize(log_file_path) > 0:
+                folder_name = os.path.basename(root)
+                dest_folder_path = os.path.join(dest_path, folder_name)
+                shutil.copytree(root, dest_folder_path)
+
 max_concurrent_cmds = 5
 sem = Semaphore(max_concurrent_cmds)
 
@@ -34,8 +44,11 @@ def run_command():
         cmd2 = ["python3", "-Xfrozen_modules=off", "sqlmap.py"]
 
     if "http" in top_textbox.get("1.0", "1.5"):
-        cmd.append("-u")
-        cmd.append(top_textbox.get('1.0', 'end-1c'))
+        if batch_url_var.get():
+            cmd.append("-m url.txt")
+        else:
+            cmd.append("-u")
+            cmd.append(top_textbox.get('1.0', 'end-1c'))
     else:
         if top_textbox.get("1.0", "end-1c").strip() != "":
             with open("url.txt", "w", encoding="utf-8") as file:
@@ -70,8 +83,7 @@ def run_command():
         'o': optimizations_var.get()
     }
 
-    if batch_url_var.get():
-        cmd.append("-m batch_url.txt")
+
 
     if batch_data_var.get():
         txt_files = [f for f in os.listdir('batch') if f.endswith('.txt')]
@@ -94,7 +106,7 @@ def run_command():
                         new_cmd.append(str(value))
 
             if random_agent_var.get():
-                new_cmd.extend(["--random-agent", "--tamper=between", "--flush-session", "--randomize=1", "--skip=XSS"])
+                new_cmd.extend(["--random-agent", "--tamper=between", "--flush-session", "--randomize=1", "--skip-heuristics"])
 
             if custom_param_var.get():
                 new_cmd.append(str(custom_param_var.get()))
@@ -109,10 +121,18 @@ def run_command():
             sem.acquire()
             t = Thread(target=execute_command, args=(new_cmd,))
             t.start()
+            
         if platform.system() == "Windows":
-            os.system(f'explorer C:\\Users\\{getpass.getuser()}\\AppData\\Local\\sqlmap\\output')
+            source_path = f"C:\\Users\\{getpass.getuser()}\\AppData\\Local\\sqlmap\\output"
+            dest_path = f"C:\\Users\\{getpass.getuser()}\\AppData\\Local\\sqlmap\\ldopt"
+            copy_folders_with_log_files(source_path, dest_path)
+            os.system(f'explorer C:\\Users\\{getpass.getuser()}\\AppData\\Local\\sqlmap\\ldopt')
         elif platform.system() == "Darwin":
-            os.system(f'open /Users/{getpass.getuser()}/.local/share/sqlmap/output')
+            source_path = f"/Users/{getpass.getuser()}/.local/share/sqlmap/output"
+            dest_path = f"/Users/{getpass.getuser()}/.local/share/sqlmap/ldopt"
+            copy_folders_with_log_files(source_path, dest_path)
+            os.system(f'open /Users/{getpass.getuser()}/.local/share/sqlmap/ldopt')
+
     if technique_var.get():
         technique_abbr = get_technique_abbr(technique_var.get())
         cmd.extend(["--technique=" + technique_abbr])
@@ -130,7 +150,7 @@ def run_command():
                 cmd.append(str(value))
 
     if random_agent_var.get():
-        cmd.extend(["--random-agent", "--tamper=between", "--flush-session", "--randomize=1", "--skip=XSS"])
+        cmd.extend(["--random-agent", "--tamper=between", "--flush-session", "--randomize=1", "--skip-heuristics"])
 
     if custom_param_var.get():
         cmd.append(str(custom_param_var.get()))
@@ -144,6 +164,7 @@ def run_command():
         display_cmd = [part for part in cmd if part not in ["start", "cmd", "/k", "-Xfrozen_modules=off"]]
         output = " ".join(display_cmd)
         command_output.insert("end", output)
+
 
 def sqlmap_help():
     sys=platform.system()
@@ -160,10 +181,6 @@ def check_create_files():
 
     if not os.path.exists("batch"):
         os.makedirs("batch")
-
-    if not os.path.exists("batch_url.txt"):
-        with open("batch_url.txt", "w", encoding="utf-8"):
-            pass
 
 def help():
     custom_help_text = """
@@ -183,21 +200,21 @@ def help():
     指定库名：执行-D命令。
     指定表名：执行-T命令。
     指定列名：执行-C命令。
+    文本框：回显运行的SQLmap命令。
     设置代理：格式为(http://|https://|socks5://IP:PORT)
     代理身份验证：格式为(用户名:密码)
-    一键去特征：执行--random-agent --tamper=between --flush-session --randomize=1 --skip=XSS命令。
+    一键去特征：执行--random-agent --tamper=between --flush-session --randomize=1 --skip-heuristics命令。
     打开所有优化开关：执行-o命令。
     默认应答：执行--batch命令。
     清除缓存：执行--purge命令。
     强制SSL通信：执行--force-ssl命令。
-    批量扫描URL：执行-m命令，一行一条的形式填写URL。(中间文本框留空)
+    批量扫描URL：执行-m命令，一行一条的形式填写URL。
     批量扫描数据包：循环执行-r命令，开启默认应答，启用大量cmd来运行，结束后自动打开sqlmap结果目录。(中间文本框留空)
     注入方式：可选择指定注入方式或全部注入方式。
     指定数据库类型：可选择指定数据库类型。
     自定义参数：直接填写需要的额外参数，会自动添加在命令最后。
     查看SQLMAP帮助：查看sqlmap -hh内容。
     开始运行：保存中间内容并执行SQLmap命令。
-    文本框：回显运行的SQLmap命令。
     中部文本框：填写http开头执行-u命令，填写数据包执行-r命令。
 
     """
@@ -293,6 +310,10 @@ custom_column_var = tk.StringVar()
 custom_column_entry = ttk.Entry(left_frame, textvariable=custom_column_var)
 custom_column_entry.pack(fill='x')
 
+command_output = Text(left_frame, height=3, wrap='word', width=20)
+command_output.insert("1.0","运行sqlmap时，将执行的sqlmap语句显示在这里")  
+command_output.pack(fill='both', expand=True, pady=10)
+
 ttk.Label(right_frame, text="设置代理").pack(fill='x')
 proxy_var = tk.StringVar()
 proxy_entry = ttk.Entry(right_frame, textvariable=proxy_var)
@@ -348,15 +369,14 @@ custom_param_var = tk.StringVar()
 custom_param_entry = ttk.Entry(right_frame, textvariable=custom_param_var)
 custom_param_entry.pack(fill='x')
 
+make_batch_button = ttk.Button(right_frame, text="制作批量数据包", command=lambda: make_batch())
+make_batch_button.pack(fill='x',pady=(10, 0))
+
 sqlmap_help_button = ttk.Button(right_frame, text="查看SQLMAP帮助", command=lambda: sqlmap_help())
 sqlmap_help_button.pack(fill='x',pady=(10, 0))
 
 help_button = ttk.Button(right_frame, text="查看工具帮助", command=lambda: help())
 help_button.pack(fill='x',pady=(10, 0))
-
-command_output = Text(right_frame, height=3, wrap='word', width=20)
-command_output.insert("1.0","运行sqlmap时，将执行的sqlmap语句显示在这里")  
-command_output.pack(fill='both', expand=True, pady=10)
 
 run_button = ttk.Button(right_frame, text="开始运行", command=lambda: run_command())
 run_button.pack(fill='x',side='bottom',pady=(0, 10))
@@ -380,7 +400,7 @@ Accept: text/html,application/xhtml+xml
 id=1&submit=%E6%9F%A5%E8%AF%A2
 -----------------------------------------
 
-3、如果您要执行 “批量扫描URL” 功能，必须清除此处所有内容，然后在工具的目录下，找到一个 “batch_url.txt” 文件，按照一行一条URL的规则放置您要批量扫描的目标。例如：
+3、如果您要执行 “批量扫描URL” 功能，勾选该功能，在文本框中，按照一行一条URL的规则放置您要批量扫描的目标。例如：
 -------------------------
 http://10.10.10.10/id=1?
 http://20.20.20.20/id=1?
@@ -390,13 +410,137 @@ http://30.30.30.30/id=1?
 4、如果您要执行 “批量扫描数据包” 功能，必须清除此处所有内容，然后在工具的目录下，找到一个 “batch” 文件夹，按照一个数据包一个txt文件的形式放入txt文件。
 小技巧：只勾选 “批量扫描数据包” ，然后开始运行可以直接启动sqlmap结果保存的文件夹。
 
-5、如果您对本工具使用有疑惑，可以点击右侧 “查看工具帮助” 获取更多信息。
+5、您可以点击右侧按钮 “制作批量数据包” ，制作用于批量扫描的数据包，在工具台中点击生成数据包后返回主界面，勾选 “批量扫描数据包” 功能，即可开始批量扫描。
+
+6、如果您对本工具使用有疑惑，可以点击右侧 “查看工具帮助” 获取更多信息。
 """
 top_textbox = tk.Text(middle_frame, height=15, width=50)
 top_textbox.insert("1.0", default_text)
 top_textbox.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
 top_textbox.bind("<FocusIn>", clear_default_text)
+
+def make_batch():
+    ##############工具箱##############
+    def generate_and_save_data():
+        left_contents = [text_entry_left.get("1.0", "end-1c") for text_entry_left in text_entries_left]
+        right_contents = [text_entry_right.get("1.0", "end-1c") for text_entry_right in text_entries_right]
+        
+        middle_text_content1 = text_entry_middle1.get("1.0", "end-1c")
+        middle_text_content2 = text_entry_middle2.get("1.0", "end-1c")
+
+        right_lines = [right_content.split("\n") for right_content in right_contents]
+
+        for line_number in range(max(len(line) for line in right_lines)):
+            combined_data = []
+
+            for left, right_line in zip(left_contents, right_lines):
+                if len(right_line) > line_number and right_line[line_number].strip():
+                    combined_data.append(f"{left}:{right_line[line_number].strip()}\n")
+
+            filename = f"batch/{line_number + 1}.txt"
+            with open(filename, "w") as file:
+                file.write(middle_text_content1 + "\n" + "".join(combined_data) + "\n" + middle_text_content2)
+
+        messagebox.showinfo("数据包生成成功", f"已生成并保存到多个文件")
+
+    second_root = tk.Tk()
+    second_root.title("批量生成数据包工具台")
+
+    paned_window_second = ttk.PanedWindow(second_root, orient=tk.HORIZONTAL)
+    paned_window_second.pack(fill=tk.BOTH, expand=True)
+
+    left_frame_second = ttk.Frame(paned_window_second, width=150, height=1)
+    paned_window_second.add(left_frame_second, weight=1)
+
+    middle_frame_second = ttk.Frame(paned_window_second, width=400, height=second_root.winfo_screenheight())
+    paned_window_second.add(middle_frame_second, weight=3)
+
+    right_frame_second = ttk.Frame(paned_window_second, width=150, height=1)
+    paned_window_second.add(right_frame_second, weight=1)
+
+    text_entries_left = []
+    text_entries_right = []
+
+    for i in range(1, 9):
+        ttk.Label(left_frame_second, text=f"请求头输入框-{i}").pack(fill='x')
+        text_entry_left = tk.Text(left_frame_second, height=1, width=20)
+        text_entry_left.pack(fill='x', pady=(0, 0))
+        text_entries_left.append(text_entry_left)
+
+    text1 = """
+    本列输入框中只能填写单行
+    请求头输入框-1
+    Host
+    请求头输入框-2
+    Cookie
+    """
+    sample_desc_left = ttk.Label(left_frame_second, text=text1)
+    sample_desc_left.pack(fill='both', expand=True)
+
+    make_packet_button = ttk.Button(left_frame_second, text="生成数据包", command=generate_and_save_data)
+    make_packet_button.pack(fill='x', pady=(0, 10))
+
+    def clear_default_text1(event):
+        if text_entry_middle1.get("1.0", "end-1c") == default_text1:
+            text_entry_middle1.delete("1.0", "end")
+    def clear_default_text2(event):        
+        if text_entry_middle2.get("1.0", "end-1c") == default_text2:
+            text_entry_middle2.delete("1.0", "end")
+    default_text1 = """
+    此处放置请求头，以下为举例说明
+
+    POST /login.php HTTP/1.1
+    Host: 127.0.0.1
+    Cookie: shironeko
+    """
+
+    default_text2 = """
+    此处放置请求体，以下为举例说明
+
+    user=admin&pass=123456
+    """
+
+    ttk.Label(middle_frame_second, text="请求头输入框").pack(fill='x')
+    text_entry_middle1 = tk.Text(middle_frame_second, height=24, width=60)
+    text_entry_middle1.insert("1.0", default_text1)
+    text_entry_middle1.pack(fill='x')
+    text_entry_middle1.bind("<FocusIn>", clear_default_text1)
+
+    ttk.Label(middle_frame_second, text="请求体输入框").pack(fill='x')
+    text_entry_middle2 = tk.Text(middle_frame_second, height=10, width=60)
+    text_entry_middle2.pack(fill='x')
+    text_entry_middle2.insert("1.0", default_text2)
+    text_entry_middle2.pack(fill='x', pady=10)
+    text_entry_middle2.bind("<FocusIn>", clear_default_text2)
+
+    for i in range(1, 9):
+        ttk.Label(right_frame_second, text=f"请求头内容-{i}").pack(fill='x')
+        text_entry_right = tk.Text(right_frame_second, height=1, width=20)
+        text_entry_right.pack(fill='x', pady=(0, 0))
+        text_entries_right.append(text_entry_right)
+
+        text_entry_right.bind("<Button-1>", lambda event, text_entry=text_entry_right: text_entry.config(height=15))
+        text_entry_right.bind("<Leave>", lambda event, text_entry=text_entry_right: text_entry.config(height=1))
+
+    text3 = """
+    本列输入框中支持填写多行
+    请求头内容-1
+    192.168.0.1
+    192.168.0.2
+    请求头内容-2
+    admin1
+    admin2
+    """
+
+    sample_desc_right = ttk.Label(right_frame_second, text=text3)
+    sample_desc_right.pack(fill='both', expand=True)
+
+    make_packet_button = ttk.Button(right_frame_second, text="生成数据包", command=generate_and_save_data)
+    make_packet_button.pack(fill='x', pady=(0, 10))
+    second_root.geometry("+%d+%d" % (x, y))
+
+    second_root.mainloop()
 
 root.withdraw()
 msgbox.showinfo("使用须知", """
