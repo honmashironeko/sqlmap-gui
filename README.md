@@ -8,10 +8,9 @@
 
 # 快速上手
 
-​	在文件夹中选择 Windows双击启动图形化.bat 鼠标双击启动（请确认您的Python环境为Python3，运行py文件的方式为python sqlmap.py，如果并非该格式，请到gui.pyw、Windows双击启动图形化.bat中对应位置进行修改）
+​	在文件夹中选择 Windows双击启动图形化.bat 鼠标双击启动，如果您是Mac系统，可以执行 gui.pyw 文件运行。（请确认您的Python环境为Python3，运行py文件的方式为python sqlmap.py，如果并非该格式，请到gui.pyw、Windows双击启动图形化.bat中对应位置进行修改）
 ![Clip_2024-03-08_16-12-02](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/050fa9e4-ef87-498e-b208-4003b864832e)
-
-  如果您是Mac系统，可以执行 gui.pyw 文件运行。
+  
 ​	左侧选择命令，中间填入burp抓取的数据包，点击开始运行即可！
 ![Clip_2024-03-08_16-13-43](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/8fc5126c-3716-4a13-ade8-6a2eb61a6195)
 
