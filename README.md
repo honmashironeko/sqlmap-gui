@@ -8,15 +8,13 @@
 
 # 快速上手
 
-​	在文件夹中选择 gui.pyw 鼠标双击启动（请确认您的Python环境为Python3，运行py文件的方式为python sqlmap.py，如果并非该格式，请到gui.pyw中对应位置进行修改）
-![aaee93427b4abf4c6ec2960724c80edd](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/dd55065a-4cb8-40a4-838d-a55c90e96f7a)
-
-请注意，如果您双击gui.pyw无法正常启动，请右键文件--属性--打开方式更改为python.exe，请注意不是pythonw.exe
-
-![02f63769802ce75db8ec3b6a7c715ad3](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/7c667cb5-cc6a-4d03-ad46-82da28c95759)
-
+​	在文件夹中选择 Windows双击启动图形化.bat 鼠标双击启动（请确认您的Python环境为Python3，运行py文件的方式为python sqlmap.py，如果并非该格式，请到gui.pyw、Windows双击启动图形化.bat中对应位置进行修改）
+![Clip_2024-03-08_16-12-02](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/050fa9e4-ef87-498e-b208-4003b864832e)
+  如果您是Mac系统，可以执行 gui.pyw 文件运行。
 ​	左侧选择命令，中间填入burp抓取的数据包，点击开始运行即可！
-![e4ce8c7a9faade2d2fe151cae608b797](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/05aa9b67-f838-4789-9c1f-8b7d1e0cf2e5)
+![Clip_2024-03-08_16-13-43](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/8fc5126c-3716-4a13-ade8-6a2eb61a6195)
+  本工具还提供了批量制作请求包的功能，在主界面点击 “制作批量数据包”，进入制作工作台后按照提示填写对应内容后生成数据包即可。返回主界面勾选 “批量扫描数据包”开始运行，检测到存在漏洞的站点会提取到ldopt文件夹中。
+  ![Clip_2024-03-08_16-18-19](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/bb0e61ed-9125-4e4a-853d-7c1cc2a8ccd5)
 
 # 使用帮助
 
@@ -40,33 +38,37 @@
 - 指定库名：执行-D命令。
 - 指定表名：执行-T命令。
 - 指定列名：执行-C命令。
-
+- 文本框：回显运行的SQLmap命令。
+- 
 **右侧模块内容介绍**
 
 - 设置代理：格式为(http://|https://|socks5://IP:PORT)
 - 代理身份验证：格式为(用户名:密码)
-- 一键去特征：执行--random-agent--tamper=between--flush-session--randomize=1--skip=XSS命令。
+- 一键去特征：执行--random-agent--tamper=between--flush-session--randomize=1 --skip-heuristics命令。
 - 打开所有优化开关：执行-o命令。
 - 默认应答：执行--batch命令，使用默认的选项。
 - 清除缓存：执行--purge命令，删除之前的记录缓存。
 - 强制SSL通信：执行--force-ssl命令，强制sqlmap使用https进行请求。
-- 批量扫描URL：执行-m命令，一行一条的形式填写URL。(中间文本框留空)
+- 批量扫描URL：执行-m命令，一行一条的形式填写URL。
 - 批量扫描数据包：使用前要在batch文件夹中放入txt文件，每一个txt文件对应一次扫描，循环执行-r命令，开启默认应答，启用大量cmd来运行，结束后自动打开sqlmap结果目录。(中间文本框留空)
 - 注入方式：可选择指定注入方式或全部注入方式。
 - 指定数据库类型：可选择指定数据库类型。
 - 自定义参数：直接填写需要的额外参数，会自动添加在命令最后。
+- 制作批量数据包：启动批量生成数据包工作台。
 - 查看SQLMAP帮助：查看sqlmap-hh内容。
+- 查看工具帮助：查看工具基础功能介绍。
 - 开始运行：保存中间内容并执行SQLmap命令。
-- 文本框：回显运行的SQLmap命令。
+
 
 **中间模块内容介绍**
 
-- 中部文本框：填写http开头执行-u命令，填写数据包执行-r命令。
+- 中部文本框：填写http开头执行-u命令，填写数据包执行-r命令，填写每行一个URL并勾选批量扫描URL执行-m命令。
 
 # 工具截图
-![b9031b2470b1214f8752dd888dece118](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/cdaf0648-21a1-48a5-9a0e-c5d3fa7ad820)
-![02e83a5448761ef1d62de08b97c9a407](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/30928bcf-d808-46ae-8769-00b0ebeb06af)
-![6f0ec70cba8111660e4b8aad6998aa1e](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/a302133e-7887-4112-98cc-b093c1349a3a)
+![Clip_2024-03-08_16-21-51](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/db065233-32b6-4846-bf64-7c0bf9648df4)
+![Clip_2024-03-08_16-22-01](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/d9325b87-a6a8-4128-85b9-7f11a20bbb66)
+![Clip_2024-03-08_16-22-40](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/33730cd6-fd38-49f7-b705-6f56d9ba7bab)
+
 
 # 最后一说
 
@@ -92,15 +94,22 @@ start
 
 # 更新日志
 
+**2024年3月8日**
+
+1、新添批量制作数据包功能。
+2、修改批量扫描URL逻辑。
+3、修改主界面UI设计。
+4、修正帮助介绍。
+
 **2024年3月7日**
 
-1、修复一处BUG
+1、修复一处BUG。
 2、新增支持Linux系统（但存在部分功能无法调用）
 3、新增支持Mac系统（该优化为 Re1axCyber 制作）
 
 **2024年3月7日**
 
-1、修复一处报错BUG
+1、修复一处报错BUG。
 2、新增文本框预先帮助，点击文本框自动清除。
 3、启用版本命名，当前为V1.0版本。
 
