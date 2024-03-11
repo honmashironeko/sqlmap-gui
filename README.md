@@ -8,15 +8,17 @@
 
 # 快速上手
 
-​	在文件夹中选择 Windows双击启动图形化.bat 鼠标双击启动，如果您是Mac系统，可以执行 gui.pyw 文件运行。（请确认您的Python环境为Python3，运行py文件的方式为python sqlmap.py，如果并非该格式，请到gui.pyw、Windows双击启动图形化.bat中对应位置进行修改）
+​	在文件夹中选择 Windows双击启动图形化.bat 鼠标双击启动，如果您是Mac系统，可以执行 gui.py 文件运行。（请确认您的Python环境为Python3，运行py文件的方式为python sqlmap.py，如果并非该格式，请到gui.py、Windows双击启动图形化.bat中对应位置进行修改）
 ![Clip_2024-03-08_16-12-02](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/050fa9e4-ef87-498e-b208-4003b864832e)
   
 ​	左侧选择命令，中间填入burp抓取的数据包，点击开始运行即可！
-![Clip_2024-03-08_16-13-43](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/8fc5126c-3716-4a13-ade8-6a2eb61a6195)
+![Clip_2024-03-11_12-16-09](https://github.com/honmashironeko/sqlmap-gui/assets/139044047/119ba892-2de9-4db1-931d-60d48740877e)
+
 
   本工具还提供了批量制作请求包的功能，在主界面点击 “制作批量数据包”，进入制作工作台后按照提示填写对应内容后生成数据包即可。返回主界面勾选 “批量扫描数据包”开始运行，检测到存在漏洞的站点会提取到ldopt文件夹中。
   
-  ![Clip_2024-03-08_16-18-19](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/bb0e61ed-9125-4e4a-853d-7c1cc2a8ccd5)
+![Clip_2024-03-11_12-16-30](https://github.com/honmashironeko/sqlmap-gui/assets/139044047/e4868938-4a34-4360-934f-f66b2ace30a6)
+
 
 # 使用帮助
 
@@ -59,6 +61,7 @@
 - 制作批量数据包：启动批量生成数据包工作台。
 - 查看SQLMAP帮助：查看sqlmap-hh内容。
 - 查看工具帮助：查看工具基础功能介绍。
+- 更新版本：检测是否存在最新版并更新。
 - 开始运行：保存中间内容并执行SQLmap命令。
 
 
@@ -67,8 +70,8 @@
 - 中部文本框：填写http开头执行-u命令，填写数据包执行-r命令，填写每行一个URL并勾选批量扫描URL执行-m命令。
 
 # 工具截图
-![Clip_2024-03-08_16-21-51](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/db065233-32b6-4846-bf64-7c0bf9648df4)
-![Clip_2024-03-08_16-22-01](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/d9325b87-a6a8-4128-85b9-7f11a20bbb66)
+![Clip_2024-03-11_12-16-09](https://github.com/honmashironeko/sqlmap-gui/assets/139044047/119ba892-2de9-4db1-931d-60d48740877e)
+![Clip_2024-03-11_12-16-30](https://github.com/honmashironeko/sqlmap-gui/assets/139044047/e4868938-4a34-4360-934f-f66b2ace30a6)
 ![Clip_2024-03-08_16-22-40](https://github.com/honmashironeko/sqlmap-cn/assets/139044047/33730cd6-fd38-49f7-b705-6f56d9ba7bab)
 
 
@@ -94,7 +97,15 @@ start
 
 小黑
 
+E0tk1
+
 # 更新日志
+
+**2024年3月11日**
+
+1、添加自动更新功能。
+2、修改批量制作数据包UI及操作逻辑。
+3、修正几次帮助文本内容。
 
 **2024年3月8日**
 
