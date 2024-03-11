@@ -1,2 +1,2 @@
 @echo off
-start /B pythonw .\gui.pyw
+start /B pythonw .\gui.py
