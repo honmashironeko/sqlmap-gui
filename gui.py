@@ -50,9 +50,9 @@ def check_update_file():
             else:
                 print("取消更新")
         else:
-            print("版本更新失败")
+            confirmation = messagebox.askyesno("更新确认", "当前已是最新版")
     else:
-        print(f"无法获取文件信息，状态码: {response.status_code}")
+        confirmation = messagebox.askyesno(f"无法获取文件信息，状态码: {response.status_code}")
 
 def download_file(content, local_file_path):
     with open(local_file_path, 'wb') as file:
