@@ -27,32 +27,37 @@ def get_technique_abbr(technique_full):
 def check_update_file():
     url = f"https://api.github.com/repos/honmashironeko/sqlmap-gui/contents/gui.py"
     headers = {"Accept": "application/vnd.github.v3+json"}
-    
-    response = requests.get(url, headers=headers)
-    local_file_path = "gui.py"
-    if response.status_code == 200:
-        data = response.json()
-        remote_content = base64.b64decode(data['content'])
-        
-        if not os.path.exists(local_file_path):
-            download_file(remote_content, local_file_path)
-            return
-        
-        with open(local_file_path, 'rb') as file:
-            local_content = file.read()
-        
-        if remote_content != local_content:
-            confirmation = messagebox.askyesno("更新确认", "有新的文件版本可用，是否更新？")
-            if confirmation:
-                print("版本已更新，开始下载替换...")
+    try:
+        response = requests.get(url, headers=headers, timeout=30)  # 设置超时时间，单位为秒
+        local_file_path = "gui.py"
+        if response.status_code == 200:
+            data = response.json()
+            remote_content = base64.b64decode(data['content'])
+            
+            if not os.path.exists(local_file_path):
                 download_file(remote_content, local_file_path)
-                print("版本升级成功")
+                return
+            
+            with open(local_file_path, 'rb') as file:
+                local_content = file.read()
+            
+            if remote_content != local_content:
+                confirmation = messagebox.askyesno("更新确认", "有新的文件版本可用，是否更新？")
+                if confirmation:
+                    print("版本已更新，开始下载替换...")
+                    download_file(remote_content, local_file_path)
+                    print("版本升级成功")
+                else:
+                    print("取消更新")
             else:
-                print("取消更新")
+                confirmation = messagebox.askyesno("更新确认", "当前已是最新版")
         else:
-            confirmation = messagebox.askyesno("更新确认", "当前已是最新版")
-    else:
-        confirmation = messagebox.askyesno(f"无法获取文件信息，状态码: {response.status_code}")
+            confirmation = messagebox.askyesno(f"无法获取文件信息，状态码: {response.status_code}")
+        # 处理响应数据
+    except requests.exceptions.Timeout:
+        print("请求超时，请重试")
+    except requests.exceptions.ConnectionError:
+        print("连接错误，请检查网络或远程服务器状态")
 
 def download_file(content, local_file_path):
     with open(local_file_path, 'wb') as file:
