@@ -110,7 +110,7 @@ def run_command():
         'proxy-cred': proxy_cred_var.get(),
         'batch': batch_var.get(),
         'purge': purge_var.get(),
-        '--force-ssl' : ssl_var.get()
+        'force-ssl' : ssl_var.get()
     }
 
     options2 = {
