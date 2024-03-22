@@ -107,7 +107,6 @@ overflow0verture
 
 1、sqlmap汉化版本体修正一处描述。
 2、gui.py文件修复多处错误。
-3、增加python环境变量识别功能。
 
 **2024年3月11日**
 
