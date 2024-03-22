@@ -72,7 +72,6 @@ sem = Semaphore(max_concurrent_cmds)
 
 def run_command():
     command_output.delete("1.0", "end")
-    sys=platform.system()
     if sys == "Windows":
         cmd = ["start", "cmd", "/k", "python", "-Xfrozen_modules=off", "sqlmap.py"]
         cmd2 = ["start", "cmd", "/c", "python", "-Xfrozen_modules=off", "sqlmap.py"]
