@@ -582,7 +582,7 @@ msgbox.showinfo("使用须知", """
 本工具仅是一个图形化界面，主要为操作提供简单化，您可以将文件放置在任何sqlmap版本下,仅供您学习使用。
 本工具允许您进行二次开发、或转发他人，但希望您能保留原作者信息，开源万岁~
 欢迎关注微信公众号：樱花庄的本间白猫
-作者博客：https://y.shironekosan.shop
+作者博客：https://y.shironekosan.cn
 作者：本间白猫
 """)
 root.deiconify()
