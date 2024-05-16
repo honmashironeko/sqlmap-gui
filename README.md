@@ -8,7 +8,11 @@
 
 # 快速上手
 
-​
+​夸克网盘：https://pan.quark.cn/s/39b4b5674570#/list/share
+
+Github：https://github.com/honmashironeko/sqlmap-gui/
+
+百度网盘：https://pan.baidu.com/s/1C9LVC9aiaQeYFSj_2mWH1w?pwd=13r5/
 
 前往以上三个下载地址中任意一个地址获得本工具，并解压压缩包，您会获得 SQLMAP 本体及本工具主体。
 
