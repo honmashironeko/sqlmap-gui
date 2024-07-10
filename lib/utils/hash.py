@@ -1289,7 +1289,7 @@ def dictionaryAttack(attack_dict):
         logger.warning(warnMsg)
 
     if len(results) == 0:
-        message = "你想要检查站点是否存在网站地图(.xml)吗？[y/N] "
+        warnMsg = "未找到明确密码"
         logger.warning(warnMsg)
 
     return results
