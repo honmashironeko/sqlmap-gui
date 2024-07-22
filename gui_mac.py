@@ -3,7 +3,6 @@ import getpass
 import shutil
 import tkinter as tk
 import re
-import requests
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 import tkinter.messagebox as msgbox
@@ -11,6 +10,15 @@ from threading import Thread, Semaphore
 from tkinter import ttk
 from tkinter import messagebox
 from tkinter import Text
+
+try:
+    import requests
+except:
+    os.system("pip install requests")
+    try:
+        import requests
+    except:
+        messagebox.askyesno("安装报错", "您的 requests 库安装失败，请手动安装后再运行！")
 
 def get_technique_abbr(technique_full):
     techniques_dict = {
@@ -229,7 +237,7 @@ def help():
     help.geometry(f"+{x}+{y}")
     
 root = tk.Tk()
-root.title("SQLmap汉化GUI版-V1.6   by本间白猫")
+root.title("SQLmap汉化GUI版-V1.7   by本间白猫")
 
 paned_window = ttk.PanedWindow(root, orient=tk.HORIZONTAL)
 paned_window.pack(fill=tk.BOTH, expand=True)
@@ -559,7 +567,7 @@ def show_custom_dialog(text1,x,y):
     dialog.mainloop()
 def update_module(x,y):
     try:
-        sqlmap_time = "2024-05-17"
+        sqlmap_time = "2024-07-22"
         url = "https://y.shironekosan.cn/1.html"
         response = requests.get(url)
         pattern = r'<div\s+class="nc-light-gallery"\s+id="image_container">(.*?)</div>'
@@ -602,5 +610,5 @@ root_height = root.winfo_height()
 x = (screen_width - root_width) // 2
 y = (screen_height - root_height) // 2
 root.geometry("+%d+%d" % (x, y))
-update_module(x, y)
 root.mainloop()
+update_module(x, y)
